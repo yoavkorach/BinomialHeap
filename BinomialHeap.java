@@ -15,22 +15,8 @@ public class BinomialHeap
 			this.min = null;
 		}
 		
-		/**
-		 * Class implementing an item in a Binomial Heap.
-		 *  
-		 */
+public static int counter;
 
-		public class HeapItem{          
-			public HeapNode node;
-			public int key;
-			public String info;
-			
-			public HeapItem(){                         ///constructor          Neri 26/2- 1050
-				this.node = null;
-				this.key = -1;                        //-1 is not a valid key
-				this.info = null;
-			}
-		}
 		/**
 		 * 
 		 * pre: key > 0
@@ -77,36 +63,41 @@ public class BinomialHeap
 			if (this.min == null) { // Heap is empty, nothing to delete
 		        return;
 		    }
-			
-			HeapNode min = this.min;
-			
-			HeapNode node = this.min;
-			HeapNode stat = this.min.next; 
-			while(stat != this.min && node.next != this.min) { 
-				node = node.next;
+			HeapNode minimum_ob = this.min;
+			HeapNode closer = this.min.next;
+			if(minimum_ob == closer) {
+				this.min = null;
+				this.last = null;
+				minimum_ob.next = null;
 			}
-			this.last = node;
-			node.next = this.min.next; // connect the tree without the deleted node 
-			
-			if(this.min != node){
-				min.next = null;
-				this.min = findMinNew(node);}
-			min.next = null;
-			if (min.child != null) {	
-				BinomialHeap newHeap = new BinomialHeap(); // new heap from the deleted node children
-				newHeap.min = findMinNew(min.child);
-				newHeap.last = min.child;
-				newHeap.size = newHeap.size();
-				node = newHeap.last;
+			else {
+				HeapNode prev_node = closer;
+				while(closer.next != minimum_ob) {
+					if(prev_node.item.key > closer.item.key) {prev_node = closer;}
+					closer = closer.next;
+				}
+				closer.next = this.min.next;
+				if(this.last == minimum_ob) {this.last = closer;}
+				minimum_ob.next = null;
+				this.min = prev_node;
+			}
+			if(minimum_ob.child != null) {
+				BinomialHeap heap2 = new BinomialHeap();
+				heap2.size = (int) Math.pow(2,minimum_ob.rank);
+				HeapNode lst_child = minimum_ob.child;
+				heap2.last = lst_child;
+				lst_child.parent = null;
+				HeapNode node = lst_child;
 				node.parent = null;
 				node = node.next;
-				while(node != newHeap.last) { // disconnecting deleted parent
+				heap2.size = (int) Math.pow(2,minimum_ob.rank) - 1;
+				while(node != lst_child) {
 					node.parent = null;
 					node = node.next;
 				}
-				this.meld(newHeap); // meld the old heap with the new
-
-		}
+				heap2.min = heap2.findMinNew(node);
+				this.meld(heap2);
+			}
 			return;
 		}
 
@@ -155,6 +146,7 @@ public class BinomialHeap
 				this.min = heap2.min;
 				this.size = heap2.size;
 				return;}
+			else if (heap2.last == null){return;}
 			HeapNode node1 = this.last.next;
 			if(node1 == null) {node1 = this.last;}
 			HeapNode node2 = heap2.last.next;
@@ -335,17 +327,7 @@ public class BinomialHeap
 		 *   
 		 */
 		public int size() //  Ehud 26.2
-		{
-			HeapNode min = this.min;
-			HeapNode temp = min.next;
-			int cnt = (int) Math.pow(2,min.rank); //size of a node with rank k is exactly 2**k
-			while (temp != min) { // sum all nodes in tree
-				cnt += (int) Math.pow(2,temp.rank);
-				temp = temp.next;
-			}
-			
-			
-			return cnt; //return new size
+		{	return this.size; //return new size
 		}
 
 		/**
@@ -393,6 +375,7 @@ public class BinomialHeap
 			}
 			
 			public HeapNode link(HeapNode node2) {       ///helper. yoav 02/03
+				counter += 1;
 				this.next = null;
 				node2.next = null;
 				// case 1 no children to connect
@@ -487,17 +470,26 @@ public class BinomialHeap
 				 node.item = parent_item;
 				 parent_item.node = node;
 				 if(true) {this.last = parent_node;}
-			node = parent_node;
-			}
+				 node = parent_node;}
+			break;
 		}
 		if (node.item.key < this.min.item.key) {this.min = node;}
 		}
 
+	/**
+	 * Class implementing an item in a Binomial Heap.
+	 *  
+	 */
 
-	private BinomialHeap.HeapNode HeapNode() {
-		// TODO Auto-generated method stub
-		return null;
+	public class HeapItem{          
+		public HeapNode node;
+		public int key;
+		public String info;
+		
+		public HeapItem(){                         ///constructor          Neri 26/2- 1050
+			this.node = null;
+			this.key = -1;                        //-1 is not a valid key
+			this.info = null;
+		}
 	}
-
-
 	}
