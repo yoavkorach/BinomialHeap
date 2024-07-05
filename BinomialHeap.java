@@ -9,7 +9,7 @@ public class BinomialHeap
 		public int size;
 		public HeapNode last;
 		public HeapNode min;
-		public BinomialHeap() {   ///constructor. Neri 25/2- 17:30
+		public BinomialHeap() {   
 			this.size = 0;
 			this.last = null;
 			this.min = null;
@@ -27,7 +27,7 @@ public static int counter;
 		
 
 
-		public HeapItem insert(int key, String info) ///Ehud 26.02 
+		public HeapItem insert(int key, String info)
 		{
 			
 			 // Create a new node with the provided key and info
@@ -58,7 +58,7 @@ public static int counter;
 		 * Delete the minimal item
 		 *
 		 */
-		public void deleteMin() // yoav 04/03
+		public void deleteMin() 
 			{this.size -= (int) Math.pow(2,this.min.rank);
 			if (this.min == null) { // Heap is empty, nothing to delete
 		        return;
@@ -106,7 +106,7 @@ public static int counter;
 		 * Return the minimal HeapItem
 		 *
 		 */
-		public HeapItem findMin() // Ehud 26.2
+		public HeapItem findMin() //  26.2
 		{
 			return this.min.item; // should be replaced by student code
 		} 
@@ -139,7 +139,7 @@ public static int counter;
 		 * Meld the heap with heap2
 		 *
 		 */
-		public void meld(BinomialHeap heap2){            ///Yoav 02/03
+		public void meld(BinomialHeap heap2){            
 			this.size += heap2.size;
 			if(this.last == null) {
 				this.last = heap2.last;
@@ -326,7 +326,7 @@ public static int counter;
 		 * Return the number of elements in the heap
 		 *   
 		 */
-		public int size() //  Ehud 26.2
+		public int size() 
 		{	return this.size; //return new size
 		}
 
@@ -366,7 +366,7 @@ public static int counter;
 			public HeapNode parent;
 			public int rank;
 			
-			public HeapNode(){                             ///constructor    Neri 26/2-1030
+			public HeapNode(){                           
 				this.item = null;
 				this.child = null;
 				this.next = null;
@@ -374,7 +374,7 @@ public static int counter;
 				this.rank = 0;
 			}
 			
-			public HeapNode link(HeapNode node2) {       ///helper. yoav 02/03
+			public HeapNode link(HeapNode node2) {       
 				counter += 1;
 				this.next = null;
 				node2.next = null;
@@ -420,7 +420,7 @@ public static int counter;
 
 		// helpers 
 
-	public HeapNode findNextMin() { // Ehud 26.2 // 
+	public HeapNode findNextMin() { //  26.2 // 
 		if (this.min == null) {
 	        return null; // Heap is empty
 	    }
@@ -457,7 +457,7 @@ public static int counter;
 
 	    return min;
 	}
-	public void shiftUp(HeapNode node) {//yoav 04.03
+	public void shiftUp(HeapNode node) {
 		boolean lst = false;
 		while (node.parent != null) { 
 			if(node.item.key < node.parent.item.key) {
@@ -486,7 +486,7 @@ public static int counter;
 		public int key;
 		public String info;
 		
-		public HeapItem(){                         ///constructor          Neri 26/2- 1050
+		public HeapItem(){                       
 			this.node = null;
 			this.key = -1;                        //-1 is not a valid key
 			this.info = null;
