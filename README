@@ -1,1 +1,9 @@
 This Binomial heap project implements a Minimum Binomial heap. 
+Runtimes of important functions (WC): 
+meld = O(logn)
+DecreaseKey = O(logn)
+DeleteMin = O(logn)
+Delete = O(logn)
+Insert = O(logn)
+numTress = O(logn)
+Findmin = O(1)
